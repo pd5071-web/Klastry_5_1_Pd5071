@@ -1,0 +1,1 @@
+Dane pobrano z publicznego repozytorium NCBI Sequence Read Archive (SRA), wyszukując eksperyment o numerze SRR16356246. Ze strony eksperymentu pobrano plik SRA Normalized, zawierający dane z sekwencjonowania RNA komórek raka płuca.

@@ -1,0 +1,23 @@
+Bioinformatyka - 5 edycja
+Klastry obliczeniowe i rozwiązania chmurowe 2026/5_1
+pd5071
+
+**Ćwiczenie Klastry_1: Przegląd usług chmurowych (AWS, Azure i Google Cloud)**
+
+**1. Jakiego typu dane bioinformatyczne przetwarzam hobbystycznie lub w pracy zawodowej?**
+Obecnie uczę się bioinformatyki hobbystycznie. Interesują mnie głównie dane sekwencji DNA i białek w formacie FASTA oraz podstawowe wyniki analiz BLAST.
+
+**2. Jakiego typu dane chciałbym nauczyć się przetwarzać i dlaczego?**
+Chciałbym nauczyć się analizować dane z sekwencjonowania NGS (FASTQ), ponieważ są często wykorzystywane w badaniach genetycznych i stanowią ważny element współczesnej bioinformatyki.
+
+**3. Która platforma wydaje się najbardziej odpowiednia do analizy danych bioinformatycznych i dlaczego?**
+Najbardziej odpowiednia wydaje mi się Google Cloud Platform (GCP). Platforma jest przejrzysta dla początkujących, oferuje gotowe maszyny wirtualne oraz łatwy dostęp do usług przechowywania danych i uruchamiania analiz. Tak mniej oficjalnie, w ostatnim czasie nabyłam dosyć silnej niechęci wobec Microsoft Azure. GCP wydaje mi się po prostu najmniejszym złem.
+
+**4. Jakie konkretne narzędzia lub usługi chciałbym przetestować w swoim projekcie? Dlaczego?**
+Chciałbym przetestować:
+
+* **Google Compute Engine** – do uruchamiania prostych analiz bioinformatycznych na maszynie wirtualnej.
+* **Google Cloud Storage** – do przechowywania plików FASTA i FASTQ.
+* **Docker** – do uruchamiania gotowych narzędzi bioinformatycznych w łatwy i powtarzalny sposób.
+
+Wybrałem te rozwiązania, ponieważ są stosunkowo proste do rozpoczęcia nauki i dobrze nadają się do projektów hobbystycznych.

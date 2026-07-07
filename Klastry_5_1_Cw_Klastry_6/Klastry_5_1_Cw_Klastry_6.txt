@@ -1,0 +1,56 @@
+Ćwiczenie Klastry_6: Współzawodnictwo i synchronizacja wątków
+
+
+Ćwiczenie 1: Współzawodnictwo o licznik
+
+1. Dlaczego wynik jest prawie zawsze inny niż 0? Jaki rodzaj błędu występuje?
+
+Ponieważ oba wątki jednocześnie modyfikują tę samą zmienną counter. Operacje zwiększania i zmniejszania licznika nie są wykonywane atomowo, więc wątki mogą sobie wzajemnie nadpisywać wyniki. Jest to warunek wyścigu (race condition). Choć w kontenerze Jupyter po kilku próbach wynik był równy 0. Dzieje się tak z powodu działania mechanizmu GIL (Global Interpreter Lock), który zmniejsza szansę wystąpienia błędu.
+
+2. Które fragmenty kodu w funkcjach incrementer i decrementer powinny być chronione?
+
+Należy chronić operacje modyfikujące wspólną zmienną counter, czyli:
+"counter += 1" oraz "counter -= 1".
+
+3. Czy wystarczy użyć jednej, wspólnej blokady dla obu funkcji?
+
+Tak. Jedna wspólna blokada (threading.Lock) wystarczy, ponieważ oba wątki korzystają z tego samego współdzielonego zasobu – zmiennej counter. Dzięki temu tylko jeden wątek może jednocześnie zmieniać jej wartość, co eliminuje warunek wyścigu.
+
+
+Ćwiczenie 2: Współdzielona lista
+
+1. W którym dokładnie momencie występuje race condition?
+
+Race condition występuje pomiędzy sprawdzeniem, czy lista tasks nie jest pusta (while tasks:), a pobraniem pierwszego elementu (tasks.pop(0)). W tym czasie drugi wątek może zmodyfikować listę.
+
+2. Co się stanie, jeśli oba wątki sprawdzą while tasks: w tym samym czasie, gdy na liście zostaje tylko jedno zadanie?
+
+Oba wątki uznają, że lista nie jest pusta. Pierwszy wątek pobierze ostatnie zadanie, a drugi spróbuje wykonać tasks.pop(0) na pustej liście, co spowoduje wyjątek IndexError.
+
+3. Jaką operację na liście tasks trzeba chronić blokadą?
+
+Blokadą należy objąć zarówno sprawdzenie, czy lista zawiera elementy (if not tasks), jak i pobranie zadania (tasks.pop(0)), ponieważ te dwie operacje muszą zostać wykonane atomowo.
+
+4. Czy blokada powinna być wewnątrz pętli while, czy na zewnątrz?
+
+Blokada powinna znajdować się wewnątrz pętli while. Dzięki temu każdy wątek blokuje dostęp tylko na czas sprawdzenia listy i pobrania jednego zadania. Następnie blokada jest zwalniana i drugi wątek może pobrać kolejne zadanie. Gdyby blokada obejmowała całą pętlę, jeden wątek wykonałby wszystkie zadania, a drugi czekałby bezczynnie, co niwelowałoby korzyści z wielowątkowości.
+
+
+Ćwiczenie 3: Zakleszczenie (Deadlock)
+
+1. Opisz krok po kroku, jak dochodzi do sytuacji, w której oba wątki czekają na siebie nawzajem.
+Wątek 1 zdobywa blokadę lock_a.
+Wątek 2 zdobywa blokadę lock_b.
+Wątek 1 próbuje zdobyć lock_b, ale jest ona zajęta przez wątek 2.
+Wątek 2 próbuje zdobyć lock_a, ale jest ona zajęta przez wątek 1.
+Oba wątki czekają na zwolnienie blokady przez drugi wątek.
+Żaden z nich nie może kontynuować pracy, więc program zawiesza się.
+
+2. Co to jest zakleszczenie (deadlock)?
+
+Zakleszczenie (deadlock) to sytuacja, w której dwa lub więcej wątków lub procesów czeka wzajemnie na zwolnienie zasobów, które są zajęte przez pozostałe. W rezultacie żaden z nich nie może kontynuować działania i program nie kończy pracy.
+
+3. Jaką prostą zasadę można wprowadzić, aby uniknąć tego typu problemów z wieloma blokadami?
+
+Należy zawsze zdobywać wiele blokad w tej samej, ustalonej kolejności we wszystkich wątkach. Dzięki temu nie powstaje sytuacja, w której jeden wątek czeka na blokadę trzymaną przez drugi, a drugi jednocześnie czeka na blokadę trzymaną przez pierwszy.
+
